@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Lab: Student Guide</title>
+<style>
+  :root {
+    --primary: #2563eb; --primary-dark: #1d4ed8; --bg: #f8fafc; --card: #ffffff;
+    --text: #1e293b; --muted: #64748b; --border: #e2e8f0; --code-bg: #0f172a;
+    --tip-bg: #ecfdf5; --tip: #059669; --warn-bg: #fef2f2; --warn: #dc2626;
+    --task-bg: #fffbeb; --task: #f59e0b; --out-bg: #1e293b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); line-height: 1.65; padding: 30px 15px; }
+  .container { max-width: 900px; margin: 0 auto; }
+  header { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; padding: 32px; border-radius: 12px; margin-bottom: 22px; }
+  header h1 { font-size: 2rem; margin-bottom: 8px; }
+  header p { opacity: .92; }
+  .badge { display: inline-block; background: rgba(255,255,255,.2); padding: 4px 12px; border-radius: 20px; font-size: .85rem; margin: 12px 8px 0 0; color: #fff; text-decoration: none; }
+  a.badge:hover { background: rgba(255,255,255,.35); }
+  section { background: var(--card); border-radius: 10px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border); }
+  h2 { color: var(--primary-dark); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-bottom: 16px; font-size: 1.4rem; }
+  h3 { margin: 20px 0 8px; color: #334155; }
+  p { margin-bottom: 10px; }
+  ul, ol { margin: 0 0 12px 22px; }
+  li { margin-bottom: 6px; }
+  code { font-family: "Fira Code", Consolas, monospace; background: #eef2f7; padding: 1px 6px; border-radius: 4px; font-size: .9em; }
+  pre { background: var(--code-bg); color: #f1f5f9; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: .9rem; margin: 10px 0; position: relative; }
+  pre code { background: none; padding: 0; color: inherit; }
+  pre.output { background: var(--out-bg); border-left: 4px solid #38bdf8; }
+  pre.output::before { content: "Output"; display: block; color: #38bdf8; font-size: .75rem; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
+  .copy { position: absolute; top: 8px; right: 8px; background: #334155; color: #fff; border: none; border-radius: 4px; padding: 3px 9px; font-size: .75rem; cursor: pointer; }
+  .copy:hover { background: #475569; }
+  .box { padding: 14px 16px; border-radius: 0 8px 8px 0; margin: 14px 0; border-left: 4px solid; }
+  .box > :last-child { margin-bottom: 0; }
+  .tip { background: var(--tip-bg); border-color: var(--tip); }
+  .warn { background: var(--warn-bg); border-color: var(--warn); }
+  .task { background: var(--task-bg); border-color: var(--task); }
+  .try { background: #eff6ff; border-color: var(--primary); }
+  .box strong.label { display: block; margin-bottom: 4px; }
+  .interactive { border: 2px dashed #93c5fd; background: #eff6ff; padding: 20px; border-radius: 8px; margin: 15px 0; text-align: center; }
+  .btn { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: .95rem; font-weight: 600; margin: 5px; }
+  .btn:hover { background: var(--primary-dark); }
+  .btn.grey { background: #64748b; } .btn.grey:hover { background: #475569; }
+  .btn.green { background: #059669; }
+  .open-link { display: inline-block; background: var(--primary); color: #fff; text-decoration: none; padding: 9px 16px; border-radius: 6px; font-weight: 600; margin: 4px 0; }
+  .open-link:hover { background: var(--primary-dark); }
+  details { border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin: 10px 0; background: #f8fafc; }
+  summary { cursor: pointer; font-weight: 600; color: var(--primary-dark); }
+  details[open] summary { margin-bottom: 8px; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 14px; font-size: .95rem; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f1f5f9; }
+  .toc { columns: 2; column-gap: 30px; }
+  .toc li { break-inside: avoid; }
+  .toc a { color: var(--primary-dark); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .tick-list { list-style: none; margin-left: 0; }
+  .tick-list li::before { content: "\2713  "; color: var(--tip); font-weight: 700; }
+  .q { margin: 14px 0; }
+  @media (max-width: 600px) { .toc { columns: 1; } header h1 { font-size: 1.5rem; } }
+  @media print {
+    body { background: #fff; padding: 0; }
+    section { break-inside: avoid; border: 1px solid #ccc; }
+    .copy, .open-link { display: none; }
+    details { display: block; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Web Technologies: JavaScript Lab</h1>
+  <p>A hands-on, self-paced guide. Read a little, run the code, change it, and break it on purpose. That is how JavaScript sticks.</p>
+  <span class="badge">Level: Beginner</span>
+  <span class="badge">About 3 hours</span>
+  <span class="badge">No installation needed</span><br>
+  <a class="badge" href="https://onecompiler.com/javascript" target="_blank" rel="noopener">Open the sandbox: onecompiler.com/javascript</a>
+</header>
+
+<!-- CONTENTS -->
+<section>
+  <h2>What's Inside</h2>
+  <ol class="toc">
+    <li><a href="#setup">Set up your sandbox</a></li>
+    <li><a href="#vars">Variables: <code>let</code> and <code>const</code></a></li>
+    <li><a href="#types">Data types</a></li>
+    <li><a href="#ops">Operators</a></li>
+    <li><a href="#strings">Working with strings</a></li>
+    <li><a href="#cond">Making decisions: if / else</a></li>
+    <li><a href="#loops">Loops</a></li>
+    <li><a href="#funcs">Functions</a></li>
+    <li><a href="#arrays">Arrays</a></li>
+    <li><a href="#objects">Objects</a></li>
+    <li><a href="#dom">The DOM: JavaScript in the browser</a></li>
+    <li><a href="#tasks">Lab tasks</a></li>
+    <li><a href="#mistakes">Common mistakes and debugging</a></li>
+    <li><a href="#quiz">Self-check quiz</a></li>
+    <li><a href="#cheat">Cheat sheet</a></li>
+    <li><a href="#next">Where to go next</a></li>
+  </ol>
+
+  <h3>By the end of this lab you will be able to</h3>
+  <ul class="tick-list">
+    <li>Store and change data using <code>let</code> and <code>const</code></li>
+    <li>Tell the main data types apart and avoid common type surprises</li>
+    <li>Write <code>if</code> / <code>else</code> logic and loops</li>
+    <li>Write and call your own functions</li>
+    <li>Work with arrays and objects</li>
+    <li>Change a web page with JavaScript by reacting to button clicks</li>
+    <li>Read an error message and fix the bug behind it</li>
+  </ul>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <h2>1. Set Up Your Sandbox</h2>
+  <p>You will write and run code in an online editor, so there is nothing to install.</p>
+  <a class="open-link" href="https://onecompiler.com/javascript" target="_blank" rel="noopener">Open onecompiler.com/javascript</a>
+
+  <ol style="margin-top:12px">
+    <li>Open the link above. You will see an editor on the left with a sample file, usually <code>index.js</code>.</li>
+    <li>Delete the sample code.</li>
+    <li>Paste or type the code from this guide.</li>
+    <li>Click the blue <strong>Run</strong> button. Your results appear in the output panel.</li>
+  </ol>
+
+  <div class="box tip"><strong class="label">Tip: type, don't just paste</strong>
+  Typing the code yourself makes you notice details such as brackets, quotes and semicolons. Copy and paste only when an example is long.</div>
+
+  <div class="box warn"><strong class="label">Important: what this sandbox can and cannot do</strong>
+  OneCompiler's JavaScript runner executes code like a program. It prints text with <code>console.log()</code>, but it has <strong>no web page</strong>, so <code>document</code>, buttons and click events do not work there. Sections 2 to 10 use this sandbox. For the web page part (section 11), use the live demo in this guide and the HTML sandbox at <a href="https://onecompiler.com/html" target="_blank" rel="noopener">onecompiler.com/html</a>.</div>
+
+  <h3>Your first program</h3>
+<pre><code>console.log("Hello, world!");
+console.log("My name is Sara and I am learning JavaScript.");</code></pre>
+<pre class="output">Hello, world!
+My name is Sara and I am learning JavaScript.</pre>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  Change the text to your own name. Run it again. Then delete one closing quote and run it to see what an error looks like. Put the quote back afterwards.</div>
+</section>
+
+<!-- VARIABLES -->
+<section id="vars">
+  <h2>2. Variables: <code>let</code> and <code>const</code></h2>
+  <p>A <strong>variable</strong> is a named box that holds a value. You give the box a name, put something in it, and use the name later.</p>
+
+  <table>
+    <tr><th>Keyword</th><th>Can you reassign it?</th><th>Use it for</th></tr>
+    <tr><td><code>const</code></td><td>No</td><td>Values that should not change (default choice)</td></tr>
+    <tr><td><code>let</code></td><td>Yes</td><td>Values that will change (scores, counters)</td></tr>
+  </table>
+
+<pre><code>const courseName = "Web Technologies";   // fixed
+let score = 0;                           // will change
+
+score = score + 10;
+score = score + 5;
+
+console.log(`Course: ${courseName}, Score: ${score}`);</code></pre>
+<pre class="output">Course: Web Technologies, Score: 15</pre>
+
+  <p>The backticks <code>`</code> with <code>${ }</code> create a <strong>template literal</strong>, which lets you put variables inside text. The backtick key is usually just above <kbd>Tab</kbd>.</p>
+
+  <h3>What happens if you change a <code>const</code>?</h3>
+<pre><code>const pi = 3.14;
+pi = 3.14159;       // not allowed
+console.log(pi);</code></pre>
+<pre class="output">TypeError: Assignment to constant variable.</pre>
+
+  <h3>Naming rules</h3>
+  <ul>
+    <li>Use letters, digits, <code>_</code> and <code>$</code>. Do not start with a digit.</li>
+    <li>Names are case-sensitive: <code>score</code> and <code>Score</code> are different variables.</li>
+    <li>Use <strong>camelCase</strong> by convention: <code>studentName</code>, <code>totalMarks</code>.</li>
+    <li>Pick meaningful names: <code>price</code> is better than <code>x</code>.</li>
+  </ul>
+
+  <div class="box tip"><strong class="label">You may see <code>var</code> in old tutorials</strong>
+  It is the older way to declare variables and it has confusing behaviour. In this course, use <code>const</code> by default and <code>let</code> only when the value must change.</div>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  Create variables for your name (<code>const</code>), your age (<code>let</code>) and your city (<code>const</code>). Print one sentence using all three. Then add <code>age = age + 1</code> and print it again.</div>
+</section>
+
+<!-- TYPES -->
+<section id="types">
+  <h2>3. Data Types</h2>
+  <p>Every value has a <strong>type</strong>. The <code>typeof</code> operator tells you which one.</p>
+
+  <table>
+    <tr><th>Type</th><th>Example</th><th>Notes</th></tr>
+    <tr><td>String</td><td><code>"Hello"</code>, <code>'Hi'</code></td><td>Text, in quotes</td></tr>
+    <tr><td>Number</td><td><code>42</code>, <code>3.14</code></td><td>Integers and decimals are the same type</td></tr>
+    <tr><td>Boolean</td><td><code>true</code>, <code>false</code></td><td>Yes/no values, used in decisions</td></tr>
+    <tr><td>Undefined</td><td><code>undefined</code></td><td>A variable that has no value yet</td></tr>
+    <tr><td>Null</td><td><code>null</code></td><td>"Intentionally empty"</td></tr>
+    <tr><td>Array</td><td><code>[1, 2, 3]</code></td><td>An ordered list (section 9)</td></tr>
+    <tr><td>Object</td><td><code>{ name: "Ali" }</code></td><td>Named properties (section 10)</td></tr>
+  </table>
+
+<pre><code>console.log(typeof "Hello");     // string
+console.log(typeof 42);          // number
+console.log(typeof true);        // boolean
+
+let notSetYet;
+console.log(typeof notSetYet);   // undefined
+console.log(notSetYet);          // undefined</code></pre>
+<pre class="output">string
+number
+boolean
+undefined
+undefined</pre>
+
+  <h3>Type surprises to know about</h3>
+<pre><code>console.log("5" + 3);     // "53"  (the + joins text)
+console.log("5" - 3);     // 2     (the - forces a number)
+console.log(Number("42")); // 42   (convert text to a number)
+console.log(Number("abc")); // NaN  (Not a Number)
+console.log(0.1 + 0.2);   // 0.30000000000000004</code></pre>
+<pre class="output">53
+2
+42
+NaN
+0.30000000000000004</pre>
+
+  <div class="box warn"><strong class="label">Watch out</strong>
+  When you read values from a form, they always arrive as <strong>strings</strong>. Convert them with <code>Number(...)</code> before doing maths, otherwise <code>"10" + "5"</code> gives <code>"105"</code>, not <code>15</code>.</div>
+</section>
+
+<!-- OPERATORS -->
+<section id="ops">
+  <h2>4. Operators</h2>
+
+  <h3>Arithmetic</h3>
+  <table>
+    <tr><th>Operator</th><th>Meaning</th><th>Example</th><th>Result</th></tr>
+    <tr><td><code>+</code></td><td>Add</td><td><code>7 + 2</code></td><td>9</td></tr>
+    <tr><td><code>-</code></td><td>Subtract</td><td><code>7 - 2</code></td><td>5</td></tr>
+    <tr><td><code>*</code></td><td>Multiply</td><td><code>7 * 2</code></td><td>14</td></tr>
+    <tr><td><code>/</code></td><td>Divide</td><td><code>7 / 2</code></td><td>3.5</td></tr>
+    <tr><td><code>%</code></td><td>Remainder</td><td><code>7 % 2</code></td><td>1</td></tr>
+    <tr><td><code>**</code></td><td>Power</td><td><code>7 ** 2</code></td><td>49</td></tr>
+  </table>
+
+<pre><code>let count = 5;
+count++;        // same as count = count + 1
+count += 10;    // same as count = count + 10
+console.log(count);      // 16
+console.log(10 % 3);     // 1
+console.log(8 % 2 === 0); // true (8 is even)</code></pre>
+
+  <h3>Comparison (result is always <code>true</code> or <code>false</code>)</h3>
+<pre><code>console.log(5 &gt; 3);       // true
+console.log(5 &lt;= 3);      // false
+console.log(5 === 5);      // true
+console.log(5 === "5");    // false (different types)
+console.log(5 == "5");     // true  (avoid ==)
+console.log(5 !== 4);      // true</code></pre>
+
+  <div class="box tip"><strong class="label">Always use <code>===</code></strong>
+  Triple equals compares the value <em>and</em> the type. Double equals <code>==</code> quietly converts types and causes bugs.</div>
+
+  <h3>Logical operators</h3>
+  <table>
+    <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+    <tr><td><code>&amp;&amp;</code></td><td>AND: both must be true</td><td><code>age &gt;= 18 &amp;&amp; hasID</code></td></tr>
+    <tr><td><code>||</code></td><td>OR: at least one is true</td><td><code>isAdmin || isOwner</code></td></tr>
+    <tr><td><code>!</code></td><td>NOT: flips the value</td><td><code>!isLoggedIn</code></td></tr>
+  </table>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  Predict the result of each line before you run it: <code>10 / 4</code>, <code>10 % 4</code>, <code>"10" + 4</code>, <code>"10" * 2</code>, <code>3 &gt; 2 &amp;&amp; 2 &gt; 5</code>. Then run them and check.</div>
+</section>
+
+<!-- STRINGS -->
+<section id="strings">
+  <h2>5. Working with Strings</h2>
+<pre><code>const name = "  Ayesha Khan  ";
+
+console.log(name.length);          // 14 (spaces count)
+console.log(name.trim());          // "Ayesha Khan"
+console.log(name.trim().toUpperCase()); // "AYESHA KHAN"
+console.log(name.trim().toLowerCase()); // "ayesha khan"
+console.log(name.includes("Khan")); // true
+console.log(name.trim().split(" ")); // [ 'Ayesha', 'Khan' ]
+console.log("Hello".charAt(0));     // "H"
+console.log("Hello".slice(1, 4));   // "ell"
+console.log("a-b-c".replace("-", "+")); // "a+b-c"</code></pre>
+
+  <p>Methods can be <strong>chained</strong>: <code>name.trim().toUpperCase()</code> cleans the text first, then changes the case.</p>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  Take the string <code>"javascript is fun"</code>. Print its length, print it in uppercase, and print just the word <code>"fun"</code> using <code>slice</code>.</div>
+</section>
+
+<!-- CONDITIONS -->
+<section id="cond">
+  <h2>6. Making Decisions: if / else</h2>
+  <p>Conditions let your program choose what to do.</p>
+
+<pre><code>const marks = 72;
+
+if (marks &gt;= 80) {
+  console.log("Grade A");
+} else if (marks &gt;= 60) {
+  console.log("Grade B");
+} else {
+  console.log("Fail");
+}</code></pre>
+<pre class="output">Grade B</pre>
+
+  <p>JavaScript checks the conditions from top to bottom and runs only the <strong>first</strong> block that is true.</p>
+
+  <h3>Shortcut: the ternary operator</h3>
+<pre><code>const age = 20;
+const status = age &gt;= 18 ? "Adult" : "Minor";
+console.log(status);   // Adult</code></pre>
+
+  <h3>switch</h3>
+<pre><code>const day = 3;
+switch (day) {
+  case 1: console.log("Monday"); break;
+  case 2: console.log("Tuesday"); break;
+  case 3: console.log("Wednesday"); break;
+  default: console.log("Another day");
+}</code></pre>
+
+  <div class="box tip"><strong class="label">Truthy and falsy</strong>
+  These values count as <code>false</code> in a condition: <code>0</code>, <code>""</code>, <code>null</code>, <code>undefined</code>, <code>NaN</code>, <code>false</code>. Almost everything else counts as <code>true</code>. That is why <code>if (name)</code> is a quick check for "is the name not empty?".</div>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  Write code that stores a temperature and prints "Cold" if it is below 15, "Warm" if it is 15 to 29, and "Hot" if it is 30 or more. Test it with three different numbers.</div>
+</section>
+
+<!-- LOOPS -->
+<section id="loops">
+  <h2>7. Loops</h2>
+  <p>Loops repeat code so you don't have to write it again and again.</p>
+
+  <h3>The <code>for</code> loop</h3>
+<pre><code>for (let i = 1; i &lt;= 5; i++) {
+  console.log("Step " + i);
+}</code></pre>
+<pre class="output">Step 1
+Step 2
+Step 3
+Step 4
+Step 5</pre>
+
+  <p>The three parts in the brackets are: <strong>start</strong> (<code>let i = 1</code>), <strong>keep going while</strong> (<code>i &lt;= 5</code>), and <strong>after each round</strong> (<code>i++</code>).</p>
+
+  <h3>The <code>while</code> loop</h3>
+<pre><code>let n = 3;
+while (n &gt; 0) {
+  console.log(n);
+  n--;
+}
+console.log("Liftoff!");</code></pre>
+<pre class="output">3
+2
+1
+Liftoff!</pre>
+
+  <div class="box warn"><strong class="label">Infinite loops</strong>
+  If the condition never becomes false (for example you forget <code>n--</code>), the loop runs forever and the sandbox may freeze. If that happens, stop the run and check that something inside the loop moves it toward ending.</div>
+
+  <h3>Example: multiplication table</h3>
+<pre><code>const number = 7;
+for (let i = 1; i &lt;= 10; i++) {
+  console.log(`${number} x ${i} = ${number * i}`);
+}</code></pre>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  (a) Print the numbers 1 to 20 that are even. (b) Add up all numbers from 1 to 100 and print the total (the answer is 5050).</div>
+</section>
+
+<!-- FUNCTIONS -->
+<section id="funcs">
+  <h2>8. Functions</h2>
+  <p>A <strong>function</strong> is a reusable block of code with a name. You define it once and call it as many times as you like.</p>
+
+<pre><code>function greet(name) {
+  return "Hello, " + name + "!";
+}
+
+console.log(greet("Ali"));
+console.log(greet("Sara"));</code></pre>
+<pre class="output">Hello, Ali!
+Hello, Sara!</pre>
+
+  <ul>
+    <li><strong>Parameters</strong> are the inputs in the definition (<code>name</code>).</li>
+    <li><strong>Arguments</strong> are the actual values you pass when calling (<code>"Ali"</code>).</li>
+    <li><code>return</code> sends a value back to the caller and ends the function.</li>
+  </ul>
+
+  <h3>Functions with decisions</h3>
+<pre><code>function getGrade(obtained, total) {
+  const percentage = (obtained / total) * 100;
+  if (percentage &gt;= 80) return "A (Pass)";
+  if (percentage &gt;= 60) return "B (Pass)";
+  return "Fail";
+}
+
+console.log(getGrade(45, 50));   // A (Pass)
+console.log(getGrade(33, 50));   // B (Pass)
+console.log(getGrade(20, 50));   // Fail</code></pre>
+
+  <h3>Arrow functions</h3>
+  <p>A shorter way to write functions, very common in modern code:</p>
+<pre><code>const square = (x) =&gt; x * x;
+const add = (a, b) =&gt; a + b;
+
+console.log(square(6));    // 36
+console.log(add(2, 3));    // 5</code></pre>
+
+  <div class="box tip"><strong class="label">Good function habits</strong>
+  Give it one job. Name it with a verb (<code>getGrade</code>, <code>calculateTotal</code>). Prefer <code>return</code> over printing inside the function, so you can reuse the result.</div>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  Write <code>isEven(n)</code> that returns <code>true</code> or <code>false</code>. Then write <code>celsiusToFahrenheit(c)</code> using the formula <code>c * 9 / 5 + 32</code>.</div>
+</section>
+
+<!-- ARRAYS -->
+<section id="arrays">
+  <h2>9. Arrays</h2>
+  <p>An <strong>array</strong> is an ordered list of values. Positions (indexes) start at <strong>0</strong>.</p>
+
+<pre><code>const fruits = ["apple", "banana", "mango"];
+
+console.log(fruits[0]);        // apple
+console.log(fruits.length);    // 3
+
+fruits.push("orange");         // add to the end
+fruits.pop();                  // remove from the end
+console.log(fruits);           // [ 'apple', 'banana', 'mango' ]
+console.log(fruits.includes("banana")); // true
+console.log(fruits.indexOf("mango"));   // 2</code></pre>
+
+  <p>Even though <code>fruits</code> is a <code>const</code>, you can still add and remove items. <code>const</code> only stops you from replacing the whole array.</p>
+
+  <h3>Looping through an array</h3>
+<pre><code>const marks = [72, 85, 49, 91];
+
+for (const m of marks) {
+  console.log(m);
+}
+
+marks.forEach((m, index) =&gt; console.log(`Student ${index + 1}: ${m}`));</code></pre>
+
+  <h3>Powerful array methods: map, filter, reduce</h3>
+<pre><code>const marks = [72, 85, 49, 91];
+
+// map: transform every item into a new array
+const outOf10 = marks.map(m =&gt; m / 10);
+console.log(outOf10);          // [ 7.2, 8.5, 4.9, 9.1 ]
+
+// filter: keep only items that pass a test
+const passed = marks.filter(m =&gt; m &gt;= 50);
+console.log(passed);           // [ 72, 85, 91 ]
+
+// reduce: combine everything into one value
+const total = marks.reduce((sum, m) =&gt; sum + m, 0);
+console.log(total);            // 297
+console.log(total / marks.length); // 74.25 (average)</code></pre>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  Given <code>[12, 7, 19, 4, 30]</code>: find the largest number using a loop, then print only the numbers greater than 10 using <code>filter</code>.</div>
+</section>
+
+<!-- OBJECTS -->
+<section id="objects">
+  <h2>10. Objects</h2>
+  <p>An <strong>object</strong> groups related data under names (called <em>properties</em>). Use one when you are describing a single "thing", such as a student.</p>
+
+<pre><code>const student = {
+  name: "Hamza",
+  age: 19,
+  isEnrolled: true,
+  marks: [78, 85, 92]
+};
+
+console.log(student.name);        // Hamza
+console.log(student["age"]);      // 19
+
+student.age = 20;                 // change a property
+student.city = "Lahore";          // add a new property
+console.log(student);</code></pre>
+
+  <h3>Objects with functions</h3>
+<pre><code>const account = {
+  owner: "Sana",
+  balance: 1000,
+  deposit(amount) {
+    this.balance += amount;
+  },
+  show() {
+    console.log(`${this.owner} has ${this.balance}`);
+  }
+};
+
+account.deposit(500);
+account.show();    // Sana has 1500</code></pre>
+
+  <h3>Arrays of objects (very common in real apps)</h3>
+<pre><code>const students = [
+  { name: "Ali",  marks: 82 },
+  { name: "Sara", marks: 67 },
+  { name: "Omar", marks: 45 }
+];
+
+for (const s of students) {
+  console.log(`${s.name}: ${s.marks}`);
+}
+
+const names = students.map(s =&gt; s.name);
+console.log(names);   // [ 'Ali', 'Sara', 'Omar' ]</code></pre>
+
+  <div class="box try"><strong class="label">Try it</strong>
+  Create an object for a book (title, author, pages). Print a sentence about it. Then make an array of three books and print only the titles of books with more than 200 pages.</div>
+</section>
+
+<!-- DOM -->
+<section id="dom">
+  <h2>11. The DOM: JavaScript in the Browser</h2>
+  <p>So far your code printed text. In a browser, JavaScript can also <strong>change the web page</strong>. The page is represented as a tree of elements called the <strong>DOM</strong> (Document Object Model), and JavaScript can find and change any element in it.</p>
+
+  <h3>The three steps of nearly every interactive feature</h3>
+  <ol>
+    <li><strong>Select</strong> the element: <code>document.getElementById("id")</code></li>
+    <li><strong>Listen</strong> for an event, such as a click</li>
+    <li><strong>Change</strong> something: text, style, or classes</li>
+  </ol>
+
+  <h3>Live demo</h3>
+  <p>Click the buttons below, then read the code underneath to see how it works.</p>
+
+  <div class="interactive">
+    <h3 id="display-heading" style="margin-top:0">Welcome to JavaScript!</h3>
+    <p id="counter-value" style="font-size:2rem;font-weight:bold;margin:10px 0">Count: 0</p>
+    <button class="btn" onclick="increaseCounter()">+ Increment</button>
+    <button class="btn grey" onclick="decreaseCounter()">- Decrement</button>
+    <button class="btn grey" onclick="resetCounter()">Reset</button>
+    <button class="btn green" onclick="changeHeadingColor()">Change Color</button>
+  </div>
+
+<pre><code>let currentCount = 0;
+
+function increaseCounter() {
+  currentCount++;
+  document.getElementById("counter-value").innerText = "Count: " + currentCount;
+}
+
+function decreaseCounter() {
+  if (currentCount &gt; 0) {
+    currentCount--;
+    document.getElementById("counter-value").innerText = "Count: " + currentCount;
+  }
+}
+
+function resetCounter() {
+  currentCount = 0;
+  document.getElementById("counter-value").innerText = "Count: 0";
+}
+
+function changeHeadingColor() {
+  const colors = ["#2563eb", "#dc2626", "#059669", "#7c3aed", "#d97706"];
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  document.getElementById("display-heading").style.color = randomColor;
+}</code></pre>
+
+  <h3>How it works</h3>
+  <ul>
+    <li><code>onclick="increaseCounter()"</code> on the button says "when clicked, run this function".</li>
+    <li><code>getElementById("counter-value")</code> finds the paragraph with that <code>id</code>.</li>
+    <li><code>.innerText = ...</code> replaces the text shown on the page.</li>
+    <li><code>.style.color = ...</code> changes the CSS colour directly.</li>
+    <li><code>Math.random()</code> gives a number from 0 up to (but not including) 1. Multiplying by the array length and using <code>Math.floor</code> picks a random index.</li>
+  </ul>
+
+  <h3>Cheat sheet: common DOM operations</h3>
+<pre><code>const el = document.getElementById("title");      // select by id
+const first = document.querySelector(".card");    // select using a CSS selector
+const all = document.querySelectorAll("li");      // select many
+
+el.innerText = "New text";                        // change text
+el.style.backgroundColor = "yellow";              // change style
+el.classList.add("active");                       // add a CSS class
+el.classList.toggle("active");                    // add if missing, remove if present
+
+const box = document.getElementById("nameInput");
+console.log(box.value);                           // read what the user typed</code></pre>
+
+  <h3>Run DOM code yourself</h3>
+  <p>Open <a href="https://onecompiler.com/html" target="_blank" rel="noopener">onecompiler.com/html</a>, replace the content with the starter below and click Run. This one includes the HTML, so JavaScript has a page to work on.</p>
+<pre><code>&lt;h2 id="msg"&gt;Hello!&lt;/h2&gt;
+&lt;button onclick="change()"&gt;Click me&lt;/button&gt;
+
+&lt;script&gt;
+  function change() {
+    document.getElementById("msg").innerText = "You clicked the button!";
+  }
+&lt;/script&gt;</code></pre>
+
+  <div class="box warn"><strong class="label">Reminder</strong>
+  If you run DOM code in onecompiler.com/javascript you will get <code>ReferenceError: document is not defined</code>. That is expected there, because that sandbox has no web page. Use the HTML sandbox for anything that touches <code>document</code>.</div>
+</section>
+
+<!-- TASKS -->
+<section id="tasks">
+  <h2>12. Lab Tasks</h2>
+  <p>Work through these in order. Each has hints and a solution. Try for at least 10 minutes before opening a hint, and look at the solution only after you have tried.</p>
+
+  <h3>Part A: Logic practice (use onecompiler.com/javascript)</h3>
+
+  <div class="box task"><strong class="label">Task 1: Greeter (Easy)</strong>
+    <p>Write a function <code>greet(name)</code>. If <code>name</code> is empty, return <em>"Please enter a name!"</em>. Otherwise return <em>"Hello, [Name]! Welcome to University."</em></p>
+    <p>Test: <code>greet("Ali")</code> and <code>greet("")</code>.</p>
+    <details><summary>Hint</summary>An empty string is falsy, so <code>if (!name)</code> works. Use <code>.trim()</code> to treat spaces-only input as empty.</details>
+    <details><summary>Solution</summary>
+<pre><code>function greet(name) {
+  if (!name.trim()) {
+    return "Please enter a name!";
+  }
+  return `Hello, ${name}! Welcome to University.`;
+}
+
+console.log(greet("Ali"));
+console.log(greet(""));</code></pre>
+<pre class="output">Hello, Ali! Welcome to University.
+Please enter a name!</pre></details>
+  </div>
+
+  <div class="box task"><strong class="label">Task 2: Light Bulb (Medium)</strong>
+    <p>Create a variable <code>isOn</code> starting at <code>false</code>. Write a function <code>toggle()</code> that flips it and prints the button label (<em>"Turn ON"</em> or <em>"Turn OFF"</em>) and the colour (<em>gray</em> or <em>yellow</em>). Call it four times.</p>
+    <details><summary>Hint</summary>Flip a boolean with <code>isOn = !isOn</code>. Use a ternary to choose the text.</details>
+    <details><summary>Solution</summary>
+<pre><code>let isOn = false;
+
+function toggle() {
+  isOn = !isOn;
+  const label = isOn ? "Turn OFF" : "Turn ON";
+  const color = isOn ? "yellow" : "gray";
+  console.log(`Button says: ${label} | Bulb is ${color}`);
+}
+
+toggle();
+toggle();
+toggle();
+toggle();</code></pre>
+<pre class="output">Button says: Turn OFF | Bulb is yellow
+Button says: Turn ON | Bulb is gray
+Button says: Turn OFF | Bulb is yellow
+Button says: Turn ON | Bulb is gray</pre></details>
+  </div>
+
+  <div class="box task"><strong class="label">Task 3: Grade Calculator (Challenge)</strong>
+    <p>Write <code>calculateGrade(obtained, total)</code>. Calculate the percentage and return a message such as <em>"82% - A (Pass)"</em>.</p>
+    <ul>
+      <li>80% or more: <strong>A (Pass)</strong></li>
+      <li>60% or more: <strong>B (Pass)</strong></li>
+      <li>Below 60%: <strong>Fail</strong></li>
+    </ul>
+    <p><strong>Bonus:</strong> Return <em>"Invalid input"</em> if the total is 0 or less, or if the marks obtained are more than the total or negative.</p>
+    <details><summary>Hint</summary>Check for invalid input first and return early. Use <code>Math.round()</code> for a clean percentage.</details>
+    <details><summary>Solution</summary>
+<pre><code>function calculateGrade(obtained, total) {
+  if (total &lt;= 0 || obtained &lt; 0 || obtained &gt; total) {
+    return "Invalid input";
+  }
+
+  const percentage = Math.round((obtained / total) * 100);
+
+  if (percentage &gt;= 80) return `${percentage}% - A (Pass)`;
+  if (percentage &gt;= 60) return `${percentage}% - B (Pass)`;
+  return `${percentage}% - Fail`;
+}
+
+console.log(calculateGrade(82, 100));
+console.log(calculateGrade(33, 50));
+console.log(calculateGrade(20, 50));
+console.log(calculateGrade(60, 0));</code></pre>
+<pre class="output">82% - A (Pass)
+66% - B (Pass)
+40% - Fail
+Invalid input</pre></details>
+  </div>
+
+  <h3>Part B: Make them interactive (use onecompiler.com/html)</h3>
+  <p>Now turn the same logic into real web page features. The solutions below are complete files: paste one into the HTML sandbox and run it.</p>
+
+  <div class="box task"><strong class="label">Task 4: Interactive Greeter</strong>
+    <p>Add a text box and a button. When the button is clicked, show the greeting below it. If the box is empty, show an alert.</p>
+    <details><summary>Solution</summary>
+<pre><code>&lt;input type="text" id="nameInput" placeholder="Your name"&gt;
+&lt;button onclick="sayHello()"&gt;Greet me&lt;/button&gt;
+&lt;p id="result"&gt;&lt;/p&gt;
+
+&lt;script&gt;
+  function sayHello() {
+    const name = document.getElementById("nameInput").value.trim();
+    if (!name) {
+      alert("Please enter a name!");
+      return;
+    }
+    document.getElementById("result").innerText =
+      `Hello, ${name}! Welcome to University.`;
+  }
+&lt;/script&gt;</code></pre></details>
+  </div>
+
+  <div class="box task"><strong class="label">Task 5: Light Bulb Toggle</strong>
+    <p>One button that switches between "Turn ON" and "Turn OFF" and changes a box between gray and yellow.</p>
+    <details><summary>Solution</summary>
+<pre><code>&lt;div id="bulb" style="width:150px;height:150px;background:gray;margin-bottom:10px"&gt;&lt;/div&gt;
+&lt;button id="toggleBtn" onclick="toggle()"&gt;Turn ON&lt;/button&gt;
+
+&lt;script&gt;
+  let isOn = false;
+
+  function toggle() {
+    isOn = !isOn;
+    document.getElementById("bulb").style.background = isOn ? "yellow" : "gray";
+    document.getElementById("toggleBtn").innerText = isOn ? "Turn OFF" : "Turn ON";
+  }
+&lt;/script&gt;</code></pre></details>
+  </div>
+
+  <div class="box task"><strong class="label">Task 6: Grade Calculator Page</strong>
+    <p>Two number inputs (Marks Obtained, Total Marks) and a Calculate Grade button that shows the percentage and the grade.</p>
+    <details><summary>Hint</summary>Input values are strings. Convert them with <code>Number()</code> before calculating.</details>
+    <details><summary>Solution</summary>
+<pre><code>&lt;input type="number" id="obtained" placeholder="Marks obtained"&gt;
+&lt;input type="number" id="total" placeholder="Total marks"&gt;
+&lt;button onclick="calculate()"&gt;Calculate Grade&lt;/button&gt;
+&lt;p id="output"&gt;&lt;/p&gt;
+
+&lt;script&gt;
+  function calculate() {
+    const obtained = Number(document.getElementById("obtained").value);
+    const total = Number(document.getElementById("total").value);
+    const out = document.getElementById("output");
+
+    if (total &lt;= 0 || obtained &lt; 0 || obtained &gt; total) {
+      out.innerText = "Invalid input";
+      return;
+    }
+
+    const pct = Math.round((obtained / total) * 100);
+    let grade = "Fail";
+    if (pct &gt;= 80) grade = "A (Pass)";
+    else if (pct &gt;= 60) grade = "B (Pass)";
+
+    out.innerText = `${pct}% - ${grade}`;
+  }
+&lt;/script&gt;</code></pre></details>
+  </div>
+
+  <h3>Extra practice</h3>
+  <ul>
+    <li><strong>FizzBuzz:</strong> Print 1 to 50. For multiples of 3 print "Fizz", for multiples of 5 print "Buzz", for multiples of both print "FizzBuzz".</li>
+    <li><strong>Reverse a string:</strong> Write <code>reverse("hello")</code> that returns <code>"olleh"</code>.</li>
+    <li><strong>Palindrome check:</strong> Return <code>true</code> for words like "level" and "madam".</li>
+    <li><strong>Class average:</strong> Given an array of student objects with marks, print the average and the names of students above it.</li>
+    <li><strong>Counter with limit:</strong> Change the live demo so the counter stops at 10.</li>
+  </ul>
+</section>
+
+<!-- MISTAKES -->
+<section id="mistakes">
+  <h2>13. Common Mistakes and Debugging</h2>
+  <p>Every programmer sees errors daily. Reading them calmly is a skill. The message tells you the <strong>type</strong> of problem and usually the <strong>line number</strong>.</p>
+
+  <table>
+    <tr><th>Error message</th><th>Usual cause</th><th>Fix</th></tr>
+    <tr><td><code>SyntaxError: Unexpected token</code></td><td>Missing bracket, brace or quote</td><td>Check the line shown and the line before it</td></tr>
+    <tr><td><code>ReferenceError: x is not defined</code></td><td>Typo in a name, or the variable was never declared</td><td>Check spelling and capitals</td></tr>
+    <tr><td><code>TypeError: Assignment to constant variable</code></td><td>Reassigning a <code>const</code></td><td>Use <code>let</code> if it must change</td></tr>
+    <tr><td><code>TypeError: x is not a function</code></td><td>Calling something that isn't a function</td><td>Check the name and that you didn't overwrite it</td></tr>
+    <tr><td><code>TypeError: Cannot read properties of undefined</code></td><td>Using <code>.something</code> on a value that doesn't exist</td><td>Log the value before that line</td></tr>
+    <tr><td><code>NaN</code> in the output</td><td>Maths on text that isn't a number</td><td>Use <code>Number()</code> and check the input</td></tr>
+  </table>
+
+  <h3>Debugging checklist</h3>
+  <ol>
+    <li>Read the error message fully, including the line number.</li>
+    <li>Add <code>console.log()</code> to see what values your variables really hold.</li>
+    <li>Test one small piece at a time rather than the whole program.</li>
+    <li>Check spelling and capitalisation (<code>getElementById</code> is not <code>getElementByID</code>).</li>
+    <li>Compare with a working example from this guide.</li>
+  </ol>
+
+  <h3>Spot the bug</h3>
+  <p>Each snippet has one bug. Find it before opening the answer.</p>
+
+<pre><code>// Bug 1
+const total = 10;
+total = total + 5;
+console.log(total);</code></pre>
+  <details><summary>Answer</summary><code>total</code> is a <code>const</code> and cannot be reassigned. Declare it with <code>let</code>.</details>
+
+<pre><code>// Bug 2
+function add(a, b) {
+  a + b;
+}
+console.log(add(2, 3));   // prints undefined</code></pre>
+  <details><summary>Answer</summary>The function never <code>return</code>s the result. Write <code>return a + b;</code>.</details>
+
+<pre><code>// Bug 3
+const items = ["pen", "book", "bag"];
+for (let i = 0; i &lt;= items.length; i++) {
+  console.log(items[i].toUpperCase());
+}</code></pre>
+  <details><summary>Answer</summary>The loop uses <code>&lt;=</code>, so on the last round <code>i</code> is 3 and <code>items[3]</code> is <code>undefined</code>, which crashes. Use <code>i &lt; items.length</code>.</details>
+
+<pre><code>// Bug 4
+const a = "10";
+const b = "5";
+console.log(a + b);   // expected 15</code></pre>
+  <details><summary>Answer</summary>Both values are strings, so <code>+</code> joins them into <code>"105"</code>. Use <code>Number(a) + Number(b)</code>.</details>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <h2>14. Self-Check Quiz</h2>
+  <p>Answer in your head or on paper first, then open the answer.</p>
+
+  <div class="q"><strong>1.</strong> What is the difference between <code>let</code> and <code>const</code>?
+    <details><summary>Answer</summary><code>let</code> allows the variable to be reassigned; <code>const</code> does not.</details></div>
+
+  <div class="q"><strong>2.</strong> What does this print: <code>console.log("3" + 4)</code>?
+    <details><summary>Answer</summary><code>34</code>. With a string on one side, <code>+</code> joins text instead of adding.</details></div>
+
+  <div class="q"><strong>3.</strong> What is the result of <code>5 === "5"</code>?
+    <details><summary>Answer</summary><code>false</code>. The values look alike but the types differ (number vs string).</details></div>
+
+  <div class="q"><strong>4.</strong> What is <code>17 % 5</code>?
+    <details><summary>Answer</summary><code>2</code>, the remainder after dividing 17 by 5.</details></div>
+
+  <div class="q"><strong>5.</strong> For <code>const arr = [10, 20, 30]</code>, what is <code>arr[1]</code> and what is <code>arr.length</code>?
+    <details><summary>Answer</summary><code>20</code> and <code>3</code>. Indexes start at 0.</details></div>
+
+  <div class="q"><strong>6.</strong> What will this print?
+<pre><code>for (let i = 0; i &lt; 3; i++) {
+  console.log(i);
+}</code></pre>
+    <details><summary>Answer</summary><code>0</code>, <code>1</code>, <code>2</code> on separate lines. The loop stops before <code>i</code> reaches 3.</details></div>
+
+  <div class="q"><strong>7.</strong> What does <code>[1, 2, 3, 4].filter(n =&gt; n % 2 === 0)</code> return?
+    <details><summary>Answer</summary><code>[2, 4]</code>, only the even numbers.</details></div>
+
+  <div class="q"><strong>8.</strong> Why do we convert form input with <code>Number()</code>?
+    <details><summary>Answer</summary>Values read from inputs are always strings. Without converting, <code>+</code> joins them instead of adding.</details></div>
+
+  <div class="q"><strong>9.</strong> Which error do you get from using <code>document</code> in onecompiler.com/javascript, and why?
+    <details><summary>Answer</summary><code>ReferenceError: document is not defined</code>. That sandbox runs JavaScript without a web page, so there is no DOM.</details></div>
+
+  <div class="q"><strong>10.</strong> What are the three steps of a typical DOM interaction?
+    <details><summary>Answer</summary>Select an element, listen for an event (such as a click), then change the element (text, style or class).</details></div>
+</section>
+
+<!-- CHEAT SHEET -->
+<section id="cheat">
+  <h2>15. Cheat Sheet</h2>
+  <table>
+    <tr><th>Topic</th><th>Quick reference</th></tr>
+    <tr><td>Output</td><td><code>console.log(x)</code>, <code>console.warn(x)</code>, <code>console.error(x)</code></td></tr>
+    <tr><td>Variables</td><td><code>const a = 1;</code> (fixed) &nbsp; <code>let b = 2;</code> (changeable)</td></tr>
+    <tr><td>Types</td><td><code>typeof x</code>; <code>Number("5")</code>; <code>String(5)</code>; <code>Boolean(x)</code></td></tr>
+    <tr><td>Compare</td><td><code>===</code> <code>!==</code> <code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td></tr>
+    <tr><td>Logic</td><td><code>&amp;&amp;</code> and, <code>||</code> or, <code>!</code> not</td></tr>
+    <tr><td>Decision</td><td><code>if (...) {...} else if (...) {...} else {...}</code></td></tr>
+    <tr><td>Ternary</td><td><code>condition ? valueIfTrue : valueIfFalse</code></td></tr>
+    <tr><td>For loop</td><td><code>for (let i = 0; i &lt; n; i++) {...}</code></td></tr>
+    <tr><td>While loop</td><td><code>while (condition) {...}</code></td></tr>
+    <tr><td>Function</td><td><code>function f(a) { return a; }</code> &nbsp; <code>const f = (a) =&gt; a;</code></td></tr>
+    <tr><td>Array</td><td><code>push</code> <code>pop</code> <code>length</code> <code>includes</code> <code>indexOf</code> <code>map</code> <code>filter</code> <code>reduce</code> <code>forEach</code></td></tr>
+    <tr><td>String</td><td><code>length</code> <code>trim</code> <code>toUpperCase</code> <code>toLowerCase</code> <code>includes</code> <code>split</code> <code>slice</code> <code>replace</code></td></tr>
+    <tr><td>Object</td><td><code>obj.key</code> &nbsp; <code>obj["key"]</code> &nbsp; <code>obj.key = value</code></td></tr>
+    <tr><td>Maths</td><td><code>Math.round</code> <code>Math.floor</code> <code>Math.ceil</code> <code>Math.max</code> <code>Math.min</code> <code>Math.random()</code></td></tr>
+    <tr><td>DOM select</td><td><code>getElementById("id")</code> &nbsp; <code>querySelector(".class")</code></td></tr>
+    <tr><td>DOM change</td><td><code>.innerText</code> &nbsp; <code>.style.color</code> &nbsp; <code>.classList.toggle("x")</code> &nbsp; <code>.value</code></td></tr>
+  </table>
+
+  <h3>Glossary</h3>
+  <table>
+    <tr><th>Term</th><th>Meaning</th></tr>
+    <tr><td>Variable</td><td>A named container for a value</td></tr>
+    <tr><td>Function</td><td>A reusable, named block of code</td></tr>
+    <tr><td>Parameter / argument</td><td>The input a function expects / the value you pass in</td></tr>
+    <tr><td>Array</td><td>An ordered list of values, indexed from 0</td></tr>
+    <tr><td>Object</td><td>A collection of named properties</td></tr>
+    <tr><td>DOM</td><td>The browser's tree of page elements that JavaScript can change</td></tr>
+    <tr><td>Event</td><td>Something that happens on the page, such as a click</td></tr>
+    <tr><td>Syntax error</td><td>The code is written incorrectly and cannot run</td></tr>
+    <tr><td>Runtime error</td><td>The code starts, then fails while running</td></tr>
+    <tr><td>Debugging</td><td>Finding and fixing the cause of a bug</td></tr>
+  </table>
+</section>
+
+<!-- NEXT -->
+<section id="next">
+  <h2>16. Where to Go Next</h2>
+  <ul>
+    <li><strong>Practise daily.</strong> Fifteen minutes every day beats three hours once a week.</li>
+    <li><strong>Learn these topics next:</strong> <code>addEventListener</code>, forms and validation, <code>localStorage</code>, fetching data from an API, and ES6 modules.</li>
+    <li><strong>Free resources:</strong>
+      <a href="https://javascript.info" target="_blank" rel="noopener">javascript.info</a>,
+      <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript" target="_blank" rel="noopener">MDN Learn JavaScript</a>,
+      <a href="https://www.freecodecamp.org" target="_blank" rel="noopener">freeCodeCamp</a>.</li>
+    <li><strong>Build something small:</strong> a to-do list, a tip calculator, a quiz app or a simple stopwatch.</li>
+  </ul>
+  <div class="box tip"><strong class="label">Remember</strong>
+  Getting stuck is part of learning. Read the error, try one change at a time, and run the code often.</div>
+</section>
+
+</div>
+
+<script>
+  // Live demo (section 11)
+  let currentCount = 0;
+  function increaseCounter() {
+    currentCount++;
+    document.getElementById("counter-value").innerText = "Count: " + currentCount;
+  }
+  function decreaseCounter() {
+    if (currentCount > 0) {
+      currentCount--;
+      document.getElementById("counter-value").innerText = "Count: " + currentCount;
+    }
+  }
+  function resetCounter() {
+    currentCount = 0;
+    document.getElementById("counter-value").innerText = "Count: 0";
+  }
+  function changeHeadingColor() {
+    const colors = ["#2563eb", "#dc2626", "#059669", "#7c3aed", "#d97706"];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    document.getElementById("display-heading").style.color = randomColor;
+  }
+
+  // Copy buttons on code blocks (not on output blocks)
+  document.querySelectorAll("pre:not(.output)").forEach(function (pre) {
+    const btn = document.createElement("button");
+    btn.className = "copy";
+    btn.textContent = "Copy";
+    btn.addEventListener("click", function () {
+      const text = pre.querySelector("code").innerText;
+      const done = function () { btn.textContent = "Copied!"; setTimeout(function () { btn.textContent = "Copy"; }, 1500); };
+      if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done); }
+    });
+    pre.appendChild(btn);
+  });
+</script>
+</body>
+</html>
